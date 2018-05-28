@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!-- Head tag -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!--Description-->
+  
+  <meta name="description" content="这是我的博客，包含设计、前端等内容。">
+  
+
+  <!--Author-->
+  
+  <meta name="author" content="Jun">
+  
+
+  <!--Open Graph Title-->
+  
+      <meta property="og:title" content="情人节如何假装不单身？"/>
+  
+  <!--Open Graph Description-->
+  
+      <meta property="og:description" content="这是我的博客，包含设计、前端等内容。" />
+  
+  <!--Open Graph Site Name-->
+  <meta property="og:site_name" content="Juuust"/>
+  <!--Type page-->
+  
+      <meta property="og:type" content="article" />
+  
+  <!--Page Cover-->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- Title -->
+  
+  <title>情人节如何假装不单身？ - Juuust</title>
+
+
+  <link rel="shortcut icon" href="/images/favicon.ico">
+
+  <!-- Custom CSS/Sass -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+
+<body>
+
+  <!-- Nav -->
+  <header class="site-header">
+  <nav class="container">
+    <a class="header-logo" href="/" rel="home">
+      
+      <img src="/images/header-avatar.png" alt="Juuust">
+      
+    </a>
+    
+    
+    
+      <a class="header-link pull-right " href="/about">
+        关于
+      </a>
+      
+    
+      <a class="header-link pull-right " href="/archives">
+        归档
+      </a>
+      
+    
+      <a class="header-link pull-right " href="/page">
+        文章
+      </a>
+      
+    
+      <a class="header-link pull-right " href="/works">
+        作品
+      </a>
+      
+    
+  </nav>
+</header>
+
+
+  <!-- Main Content -->
+  <div class="site-content post-container">
+  <div class="container container-limited">
+    <div class="space-xlg"></div>
+    <section class="container-header">
+      <h1>
+        情人节如何假装不单身？
+      </h1>
+      
+      <p>2017/11/5</p>
+    </section>
+    <div class="space-lg"></div>
+    
+    <section class="row container-article">
+      <div class="col-sm-12 article-content">
+        <p>今天是情人节，我没有女朋友。但是，有了Framer这个神器我可以假装自己不单身啊！</p>
+<p>实不相瞒，从九零年开始我就和我的影子在一起了，如今已同甘共苦九千多天。</p>
+<p class="content-image"><img src="/images/post/love/effect.gif" alt=""></p>
+<p>我编不下去了。这是我在大家约会的时间用Framer制作的一个小动效，它可以不断地计时，上面的一颗心也会随着时间流逝而翻页。不管单身与否，Framer还是要学的，我们一起看看如何实现这个效果吧。</p>
+<p>这个效果的实现分为两部分，一个是上面的“心”翻页效果，一个是下面的计时效果。先看一下“心”翻页效果如何实现。</p>
+<p class="content-image"><img src="/images/post/love/flip.png" alt=""></p>
+<p>我们只需要使用三个半心——两个在下面固定不动，另外一个在上面翻页。我给下面的两个半心起名叫左心房和右心房。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rightHouse = <span class="keyword">new</span> Layer</span><br><span class="line">  x: Align.center(<span class="number">100</span>)</span><br><span class="line">  y: Align.center()</span><br><span class="line">  height: <span class="number">362</span></span><br><span class="line">  image: <span class="string">"images/heart-right.png"</span></span><br><span class="line"></span><br><span class="line">leftHouse = <span class="keyword">new</span> Layer</span><br><span class="line">  x: Align.center(<span class="number">-100</span>)</span><br><span class="line">  y: Align.center()</span><br><span class="line">  height: <span class="number">362</span></span><br><span class="line">  image: <span class="string">"images/heart-left.png"</span></span><br></pre></td></tr></table></figure>
+<p>再新建一个图层，起名为flipHeart，它的代码如下：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">flipHeart = <span class="keyword">new</span> Layer</span><br><span class="line">  x: Align.center(<span class="number">100</span>)</span><br><span class="line">  y: Align.center()</span><br><span class="line">  height: <span class="number">362</span></span><br><span class="line">  originX: <span class="number">0</span></span><br><span class="line">  image: <span class="string">"images/heart-right.png"</span></span><br></pre></td></tr></table></figure>
+<p>看着flipHeart这个名字，我想起一部电影《flipped》，中文名叫《怦然心动》，讲了一个美好的初恋故事。回到正文，flipHeart的代码中有个originX属性，它的意思是把x轴的旋转中心移到该元素的最左侧，和ps里的旋转中心类似。</p>
+<p class="content-image"><img src="/images/post/love/transform.png" alt=""></p>
+<p><strong>flipHeart的动画过程：</strong></p>
+<p>围绕左边缘线翻转180度到左边，立即回到右边重复上一步。如此往复循环，就会一直不断地翻下去。但是为了达到更好的效果，我们还要控制它在翻转过程中的明暗变化。所以，我们将其拆分为三个过程：0-0.4s内翻转90度到垂直于屏幕所在平面，亮度由暗变亮；0.4s-0.8s内翻转到最左边，亮度由亮变暗；0.9s的时候回归到右边（此过程不带动画）。你可能会有疑问，为什么不是前0.5s内翻到中间，后0.5s翻到左边，在1s这一瞬间立即回归原位呢？这是因为如果翻转到了左边立即回归原位，中间没有时间间隙，它就会闪一下不是很自然。</p>
+<p>对应的，我们给flipHeart添加两个状态，分别是翻转到中间和翻转到右边的状态：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">flipHeart.states.add</span><br><span class="line">  middle:</span><br><span class="line">    rotationY: <span class="number">-90</span></span><br><span class="line">    brightness: <span class="number">140</span></span><br><span class="line">  over:</span><br><span class="line">    rotationY: <span class="number">-180</span></span><br><span class="line">    brightness: <span class="number">93</span></span><br></pre></td></tr></table></figure>
+<p>加上初始状态，现在它一共有三个状态。上面代码中的brightness是图层的亮度属性，我们让它翻转到中间时变亮（140），翻转到左边时又变暗（93）。</p>
+<p>动画属性设置如下：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flipHeart.states.animationOptions =</span><br><span class="line">  time: <span class="number">0.4</span></span><br><span class="line">  curve: <span class="string">"linear"</span></span><br></pre></td></tr></table></figure>
+<p>每次动画时间是0.4s，动画曲线设为匀速运动可以让真个翻页过程更统一，当然你也可以尝试不同曲线做出不同感觉。</p>
+<p>下面开始写它的状态转换，先写翻页一次的代码：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">flipHeart.states.<span class="keyword">switch</span>(<span class="string">"middle"</span>)</span><br><span class="line">Utils.delay <span class="number">0.4</span>,<span class="function">-&gt;</span></span><br><span class="line">  flipHeart.states.<span class="keyword">switch</span>(<span class="string">"over"</span>)</span><br><span class="line">Utils.delay <span class="number">0.9</span>,<span class="function">-&gt;</span></span><br><span class="line">  flipHeart.states.switchInstant(<span class="string">"default"</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码的意思就是，在0s的时候转换到middle状态，0.4s后到了middle状态，此时再转换到over状态，0.9s之后立即转到default状态，就是初始状态。</p>
+<p>但是我们需要它不停翻页，所以需要一个计时器Utils.interval每隔1s执行一次。我们把它装进一个函数，每次执行这个函数就行啦。需要注意的是在计时之前先执行一下翻页，因为计时器默认的第一次执行是在这个时间间隔之后。</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">handle</span> = <span class="params">()</span>-&gt;</span></span><br><span class="line">  flipHeart.states.<span class="keyword">switch</span>(<span class="string">"middle"</span>)</span><br><span class="line">  Utils.delay <span class="number">0.4</span>,<span class="function">-&gt;</span></span><br><span class="line">    flipHeart.states.<span class="keyword">switch</span>(<span class="string">"over"</span>)</span><br><span class="line">  Utils.delay <span class="number">0.9</span>,<span class="function">-&gt;</span></span><br><span class="line">    flipHeart.states.switchInstant(<span class="string">"default"</span>)</span><br><span class="line"></span><br><span class="line">handle()</span><br><span class="line">Utils.interval <span class="number">1</span>,<span class="function">-&gt;</span></span><br><span class="line">  handle()</span><br></pre></td></tr></table></figure>
+<p>现在我们看看第二部分的效果如何实现。</p>
+<p class="content-image"><img src="/images/post/love/text.png" alt=""></p>
+<p>这个比较复杂，需要一定的js基础。大概原理就是，每隔1s计算一下既定时间（情侣开始在一起的时间）和当前时间之间的秒数差，除以3600*24就是剩余的天数，除以60的余数就是剩余的秒数，其它的计算方式看代码：</p>
+<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">now = <span class="keyword">new</span> Date()</span><br><span class="line">nowSecond = now.getTime()/<span class="number">1000</span></span><br><span class="line">diffDay = parseInt((nowSecond-startSecond )/<span class="number">3600</span>/<span class="number">24</span>)</span><br><span class="line">diffHour = parseInt((nowSecond-startSecond )/<span class="number">3600</span>%<span class="number">24</span>)</span><br><span class="line">diffMinute = parseInt((nowSecond-startSecond )/<span class="number">60</span>%<span class="number">60</span>)</span><br><span class="line">diffSecond = parseInt((nowSecond-startSecond )%<span class="number">60</span>)</span><br><span class="line">showLove.html = diffDay+<span class="string">"天"</span>+diffHour+<span class="string">"小时"</span>+diffMinute+<span class="string">"分"</span>+diffSecond+<span class="string">"秒"</span></span><br></pre></td></tr></table></figure>
+<p>我们把它放进上面那个计时器里面，让它不停地改动showLove图层的文字内容，就出现效果啦。</p>
+<p>怎么样？现在你看我是不是不单身了呢？</p>
+<p>点击<a href="https://github.com/leadream/funny/tree/master/framer-love" target="_blank" rel="noopener">这里</a>获取源代码文件。</p>
+
+      </div>
+    </section>
+    <!-- Prev or Next -->
+    <div class="space-xxlg"></div>
+    <section class="row container-ending">
+      
+        <a href="/2017/framercn/" class="ending-nav ending-prev" title="Framercn 2.0">
+          <div class="nav-icon text-center">
+            <img src="/images/arrow-left.svg">
+          </div>
+          <div class="hidden-xs">
+            <p>Framercn 2.0</p>
+            <p>上一篇</p>
+          </div>
+        </a>
+      
+      
+        <a href="/2017/invitation/" class="ending-nav ending-next" title="程序猿的邀请函">
+          <div class="hidden-xs">
+            <p>程序猿的邀请函</p>
+            <p>下一篇</p>
+          </div>
+          <div class="nav-icon text-center">
+            <img src="/images/arrow-right.svg">
+          </div>
+        </a>
+      
+    </section>
+    <div class="space-xxlg"></div>
+  </div>
+</div>
+
+
+  <!-- Footer -->
+  
+<footer class="footer text-center">
+  <div class="container">
+    
+      <div class="footer-qrcode text-center">
+        <img src="/images/weixin-qrcode.png"/>
+      </div>
+    
+    <div class="footer-social">
+      
+        
+          
+        
+          
+            <a href="https://dribbble.com/leadream" class="icon icon-dribbble" target="_blank">
+              <img src="/images/dribbble.svg">
+            </a>
+          
+        
+          
+            <a href="https://github.com/leadream" class="icon icon-behance" target="_blank">
+              <img src="/images/behance.svg">
+            </a>
+          
+        
+          
+            <a href="https://leadream.zcool.com.cn/" class="icon icon-zcool" target="_blank">
+              <img src="/images/zcool.svg">
+            </a>
+          
+        
+          
+            <a href="https://github.com/leadream" class="icon icon-github" target="_blank">
+              <img src="/images/github.svg">
+            </a>
+          
+        
+          
+            <a href="mailto:leadream4@gmail.com" class="icon icon-mail" target="_blank">
+              <img src="/images/mail.svg">
+            </a>
+          
+        
+      
+    </div>
+    <div>
+      <span>Juuust &copy; 2018</span>
+      
+        <span class="split">|</span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> with Theme <a href="https://github.com/leadream/hexo-theme-juuust" target="_blank">Juuust</a></span>
+      
+    </div>
+  </div>
+</footer>
+
+
+</body>
+
+</html>
